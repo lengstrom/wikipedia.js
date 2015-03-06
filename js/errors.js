@@ -1,6 +1,7 @@
 function WikipediaException(error) {
 	console.error('Error:');
 	console.error(JSON.stringify(error));
+
 }
 
 function DisambiguationError(title, may_refer_to) {
@@ -16,5 +17,9 @@ function PageError(pageid) {
 }
 
 function RedirectError(title) {
+	WikipediaException.call(this, {'title':title});
+}
+
+function RateError() {
 	WikipediaException.call(this, {'title':title});
 }

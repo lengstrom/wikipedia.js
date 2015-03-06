@@ -1,3 +1,5 @@
+var request = require('request');
+
 module.exports = function(args) {
 	var opts = {
 		API:'http://en.wikipedia.org/w/api.php',
@@ -16,6 +18,8 @@ module.exports = function(args) {
 		'opts':opts,
 		'cache':new Cache(),
 		'search':search,
+		'clear_cache':clear_cache,
+		'set_caching':set_caching,
 		'suggest':suggest,
 		'page':page,
 		'geosearch':geosearch,
