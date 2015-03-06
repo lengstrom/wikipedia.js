@@ -1,0 +1,36 @@
+{
+	"name": "wikipedia-js",
+	"version": "0.0.1",
+	"description": "Simple calls to Wikipedia using Node",
+	"author": "Logan Engstrom",
+	"scripts": {},
+	"main": "lib/foo.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/meadowstream/wikipedia.js"
+	},
+	"bugs": {
+		"url": "https://github.com/meadowstream/wikipedia.js/issues"
+	},
+	"keywords": [
+		"wikipedia",
+		"wiki",
+		"api"
+	],
+	"dependencies": {
+		"cheerio": "^0.18.0",
+		"request": "^2.53.0"
+	},
+	"devDependencies": {
+		"grunt": "^0.4.5",
+		"gulp-concat": "^2.5.2",
+		"gulp-jshint": "^1.9.2",
+		"gulp-uglify": "^1.1.0"
+	},
+	"publishConfig": {
+		"registry": "https://your-private-hosted-npm.registry.nodejitsu.com"
+	},
+	"subdomain": "foobar",
+	"analyze": true,
+	"license": "MIT"
+}
