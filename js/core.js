@@ -14,11 +14,11 @@ module.exports = function(args) {
 	};
 
 	return {
+		// variables
+		'cache':new Cache(),
 		// Functions
 		'opts':opts,
-		'cache':new Cache(),
 		'search':search,
-		'clear_cache':clear_cache,
 		'set_caching':set_caching,
 		'suggest':suggest,
 		'page':page,
