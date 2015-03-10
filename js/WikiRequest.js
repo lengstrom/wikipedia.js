@@ -1,4 +1,4 @@
-function WikiRequest(params, caller, cb) {
+function WikiRequest(params, caller, cb, err_cb) {
 	var now = Date.now();
 	var headers = {
 		'User-Agent': caller.opts.USER_AGENT
@@ -21,7 +21,7 @@ function WikiRequest(params, caller, cb) {
 
 			request(requestOptions, function (error, response, body) {
 				if (error) {
-					cb(error);
+					err_cb(error);
 				} else {
 					var raw_results = JSON.parse(body);
 					if ('error' in body) {
