@@ -17,11 +17,12 @@ WikiRequest.prototype.send = function(params, headers, cb) {
 	var now = Date.now();
 	if (!this.caller.opts.RATE_LIMIT || !this.caller.opts.RATE_LIMIT_LAST_CALL || now - this.caller.opts.RATE_LIMIT_LAST_CALL > this.caller.opts.RATE_LIMIT_MIN_WAIT) {
 		var requestOptions = {
-			'uri':this.caller.opts.API_URL,
-			'headers':headers,
-			'followRedirect':true,
-			'qs':params,
-			'useQuerystring':true
+			method:"GET",
+			uri:this.caller.opts.API_URL,
+			headers:headers,
+			followRedirect:true,
+			qs:params,
+			useQuerystring:true
 		};
 
 		request(requestOptions, function (error, response, body) {
