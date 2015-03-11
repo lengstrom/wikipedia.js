@@ -1,5 +1,4 @@
 function WikiRequest(params, caller, cb) {
-	var now = Date.now();
 	var headers = {
 		'User-Agent': caller.opts.USER_AGENT
 	};
@@ -10,11 +9,12 @@ function WikiRequest(params, caller, cb) {
 		params.action = 'query';
 	}
 
-	this.send(params, headers);
+	this.send(params, headers, cb);
 
 }
 
-WikiRequest.prototype.send = function(params, headers) {
+WikiRequest.prototype.send = function(params, headers, cb) {
+	var now = Date.now();
 	if (!this.caller.opts.RATE_LIMIT || !this.caller.opts.RATE_LIMIT_LAST_CALL || now - this.caller.opts.RATE_LIMIT_LAST_CALL > this.caller.opts.RATE_LIMIT_MIN_WAIT) {
 		var requestOptions = {
 			'url':this.caller.opts.API_URL,
