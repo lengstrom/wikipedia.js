@@ -11,7 +11,7 @@ module.exports = function(args) {
 
 	for (var i in args) {
 		opts[i] = args[i];
-	};
+	}
 
 	return {
 		// variables
@@ -30,5 +30,5 @@ module.exports = function(args) {
 
 		// Classes
 		'WikipediaPage':WikipediaPage
-	}
-}
+	};
+};

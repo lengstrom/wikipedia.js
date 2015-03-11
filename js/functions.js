@@ -13,16 +13,16 @@ function search(query, opts, cb) {
 		'srsearch':query
 	};
 
-	if (opts.suggestion) params['srinfo'] = 'suggestion';
+	if (opts.suggestion) params.srinfo = 'suggestion';
 
 	var req = new WikiRequest(params, this, function(err, raw_results) {
 		if (err) {
 			cb(err);
 		} else {
-			var search_results = raw_results['query']['search'].map(function(d){return d['title']});
+			var search_results = raw_results.query.search.map(function(d){return d.title;});
 			if (opts.suggestion) {
-				if ('searchinfo' in raw_results['query']) {
-					var suggestion = raw_results['query']['searchinfo']['suggestion'];
+				if ('searchinfo' in raw_results.query) {
+					var suggestion = raw_results.query.searchinfo.suggestion;
 					cb(false, search_results, suggestion);
 				} else {
 					cb(false, search_results, false);
@@ -50,25 +50,25 @@ function suggest(query, cb) {
 
 }
 
-function summary(query, sentences=0, chars=0, auto_suggest=True, redirect=True) {
+// function summary(query, sentences=0, chars=0, auto_suggest=True, redirect=True) {
 	
-}
+// }
 
 function set_user_agent(user_agent_string) {
 	this.opts.USER_AGENT = user_agent_string;
 }
 
-function page(opts) {
+// function page(opts) {
 
-}
+// }
 
-function geosearch(latitude, longitude, title=None, results=10, radius=1000) {
+// function geosearch(latitude, longitude, title=None, results=10, radius=1000) {
 
-}
+// }
 
-function languages() {
+// function languages() {
 
-}
+// }
 
 function set_lang(prefix) {
 	this.opts.API_URL = 'http://' + prefix.toLowerCase() + '.wikipedia.org/w/api.php';
@@ -80,6 +80,6 @@ function set_rate_limiting(rate_limit, min_wait) {
 	this.opts.RATE_LIMIT_MIN_WAIT = min_wait || 50;
 }
 
-function random(pages=1) {
+// function random(pages=1) {
 
-}
+// }

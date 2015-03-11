@@ -49,31 +49,32 @@ WikipediaPage.prototype.load = function(redirect, preload) {
 	};
 
 	if (this.pageid !== undefined) {
-		params['pageids'] = this.pageid;
+		params.pageids = this.pageid;
 		this.identification = 'pageid';
 	} else {
-		params['titles'] = this.title;
+		params.titles = this.title;
 		this.identification = 'title';
 	}
 
 	var req = new WikiRequest(params, caller, (function(err, raw_json){
-		var query = raw_json['query'];
-		for (var page_key in query['pages']) break;
+		var query = raw_json.query;
+		for (var page_key in query.pages) break;
 		var pageid = page_key;
-		var page = query['pages'][pageid]
+		var page = query.pages[pageid];
 
 		if ('missing' in page) {
-			throw new PageError({this.identification:this[this.identification]}); // Throw error
+			var dict = {};
+			dict[this.identification] = this[this.identification];
+			throw new PageError(dict); // Throw error
 		}
 		else if ('redirects' in query) {
 			if (redirect) {
-				var redirects = query['redirects'][0]
-
+				var redirects = query.redirects[0];
 				var from_title;
 				if ('normalized' in query) {
-					var normalized = query['normalized'][0];
+					var normalized = query.normalized[0];
 					// assert that the 'from' of normalized is equal to the original query
-					from_title = normalized['to'];
+					from_title = normalized.to;
 				} else {
 					from_title = this.title;
 				}
@@ -99,8 +100,8 @@ WikipediaPage.prototype.load = function(redirect, preload) {
 						cb(err);
 					}
 
-					var html = raw_json['query']['pages'][pageid]['revisions'][0]['*'];
-					var els = cheerio.load(html))("#mw-content-text li > a");
+					var html = raw_json.query.pages[pageid].revisions[0]['*'];
+					var els = (cheerio.load(html))("#mw-content-text li > a");
 					var may_refer_to = [];
 					for (var i = 0; i < els.length; i++) {
 						var candidate = els[i].attribs.title;
@@ -113,8 +114,8 @@ WikipediaPage.prototype.load = function(redirect, preload) {
 			}
 		} else { //success
 			this.pageid = pageid;
-			this.title = page['title'];
-			this.url = page['fullurl'];
+			this.title = page.title;
+			this.url = page.fullurl;
 		}
 	}).bind(this));
 };

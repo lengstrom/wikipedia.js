@@ -4,12 +4,12 @@ function WikiRequest(params, caller, cb) {
 		'User-Agent': caller.opts.USER_AGENT
 	};
 
-	params['format'] = 'json';
-	if !('action' in params) {
-		params['action'] = 'query';
+	params.format = 'json';
+	if (!('action' in params)) {
+		params.action = 'query';
 	}
 
-	
+
 }
 
 WikiRequest.prototype.send = function() {
@@ -28,7 +28,7 @@ WikiRequest.prototype.send = function() {
 			} else {
 				var raw_results = JSON.parse(body);
 				if ('error' in body) {
-					if (['HTTP request timed out.', 'Pool queue is full'].index(raw_results['error']['info'])) {
+					if (['HTTP request timed out.', 'Pool queue is full'].index(raw_results.error.info)) {
 						//HTTPTimeOutError
 					}
 					else {
@@ -44,4 +44,4 @@ WikiRequest.prototype.send = function() {
 		// call it later
 		setTimeout(this.send.bind(caller), now - caller.opts.RATE_LIMIT_LAST_CALL);
 	}
-}
+};

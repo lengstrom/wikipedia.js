@@ -3,5 +3,5 @@ function Cache() {
 		'search':{},
 		'suggest':{},
 		'summary':{},
-	}
+	};
 }
