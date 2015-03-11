@@ -51,24 +51,26 @@ function suggest(query, cb) {
 }
 
 // function summary(query, sentences=0, chars=0, auto_suggest=True, redirect=True) {
+function summary(query) {
 	
-// }
+}
 
 function set_user_agent(user_agent_string) {
 	this.opts.USER_AGENT = user_agent_string;
 }
 
-// function page(opts) {
+function page(opts) {
 
-// }
+}
 
-// function geosearch(latitude, longitude, title=None, results=10, radius=1000) {
+// function geosearch(latitude, longitude , title=None, results=10, radius=1000) {
+function geosearch() {
 
-// }
+}
 
-// function languages() {
+function languages() {
 
-// }
+}
 
 function set_lang(prefix) {
 	this.opts.API_URL = 'http://' + prefix.toLowerCase() + '.wikipedia.org/w/api.php';
@@ -81,5 +83,10 @@ function set_rate_limiting(rate_limit, min_wait) {
 }
 
 // function random(pages=1) {
+function random() {
 
-// }
+}
+
+function set_caching() {
+
+}
