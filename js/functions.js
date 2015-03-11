@@ -16,18 +16,22 @@ function search(query, opts, cb) {
 	if (opts.suggestion) params['srinfo'] = 'suggestion';
 
 	var req = new WikiRequest(params, this, function(err, raw_results) {
-		var search_results = raw_results['query']['search'].map(function(d){return d['title']});
-		if (opts.suggestion) {
-			if ('searchinfo' in raw_results['query']) {
-				var suggestion = raw_results['query']['searchinfo']['suggestion'];
-				cb(false, search_results, suggestion);
-			} else {
-				cb(false, search_results, false);
-			}
+		if (err) {
+			cb(err);
 		} else {
-			cb(false, search_results);
+			var search_results = raw_results['query']['search'].map(function(d){return d['title']});
+			if (opts.suggestion) {
+				if ('searchinfo' in raw_results['query']) {
+					var suggestion = raw_results['query']['searchinfo']['suggestion'];
+					cb(false, search_results, suggestion);
+				} else {
+					cb(false, search_results, false);
+				}
+			} else {
+				cb(false, search_results);
+			}
 		}
-	}, cb);
+	});
 
 	req.send();
 }
