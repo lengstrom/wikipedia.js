@@ -1,4 +1,4 @@
-function search(query, opts, cb) {
+function search(query, cb, opts) {
 	// opts:contains results=10, suggestion=False
 	// results:callback with params (err, [search_results [, suggestion]])
 	if (!opts) {
@@ -38,7 +38,7 @@ function search(query, opts, cb) {
 
 function suggest(query, cb) {
 	// Calls search to get suggestion
-	this.search(query, {'srinfo':'suggestion'}, function(err, results, suggestion) {
+	this.search(query, function(err, results, suggestion) {
 		if (err) {
 			cb(err);
 		}
@@ -46,7 +46,7 @@ function suggest(query, cb) {
 			this.cache.add('search', results);
 			cb(false, suggestion);
 		}
-	});
+	}, {'srinfo':'suggestion'});
 
 }
 
