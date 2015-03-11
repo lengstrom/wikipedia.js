@@ -32,8 +32,6 @@ function search(query, cb, opts) {
 			}
 		}
 	});
-
-	req.send();
 }
 
 function suggest(query, cb) {

@@ -3,19 +3,21 @@ function WikiRequest(params, caller, cb) {
 	var headers = {
 		'User-Agent': caller.opts.USER_AGENT
 	};
+	this.caller = caller;
 
 	params.format = 'json';
 	if (!('action' in params)) {
 		params.action = 'query';
 	}
 
+	this.send();
 
 }
 
 WikiRequest.prototype.send = function() {
-	if (!caller.opts.RATE_LIMIT || !caller.opts.RATE_LIMIT_LAST_CALL || now - caller.opts.RATE_LIMIT_LAST_CALL > caller.opts.RATE_LIMIT_MIN_WAIT) {
+	if (!this.caller.opts.RATE_LIMIT || !this.caller.opts.RATE_LIMIT_LAST_CALL || now - this.caller.opts.RATE_LIMIT_LAST_CALL > this.caller.opts.RATE_LIMIT_MIN_WAIT) {
 		var requestOptions = {
-			'url':caller.opts.API_URL,
+			'url':this.caller.opts.API_URL,
 			'headers':headers,
 			'followRedirect':true,
 			'qs':params,
@@ -42,6 +44,6 @@ WikiRequest.prototype.send = function() {
 		});
 	} else {
 		// call it later
-		setTimeout(this.send.bind(caller), now - caller.opts.RATE_LIMIT_LAST_CALL);
+		setTimeout(this.send, now - this.caller.opts.RATE_LIMIT_LAST_CALL);
 	}
 };
