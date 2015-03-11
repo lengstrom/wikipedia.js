@@ -22,7 +22,7 @@ WikipediaPage.prototype.setup = function(opts) {
 	}
 
 	if (opts.preload) {
-
+		
 	}
 
 	// Setup
