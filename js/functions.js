@@ -14,24 +14,36 @@ function search(query, cb, opts) {
 	};
 
 	if (opts.suggestion) params.srinfo = 'suggestion';
-
-	var req = new WikiRequest(params, this, function(err, raw_results) {
+	var total_raw_results = [];
+	var req = new WikiRequest(params, this, handleWikiRequest);
+	var caller = this;
+	function handleWikiRequest(err, raw_results) {
 		if (err) {
 			cb(err);
 		} else {
 			var search_results = raw_results.query.search.map(function(d){return d.title;});
-			if (opts.suggestion) {
-				if ('searchinfo' in raw_results.query) {
-					var suggestion = raw_results.query.searchinfo.suggestion;
-					cb(false, search_results, suggestion);
-				} else {
-					cb(false, search_results, false);
+			total_raw_results = total_raw_results.concat(search_results);
+			if ('continue' in raw_results && total_raw_results.length < opts.results) {
+				for (var i in raw_results.continue) {
+					params[i] = raw_results.continue[i];
 				}
+
+				var req = new WikiRequest(params, caller, handleWikiRequest);
 			} else {
-				cb(false, search_results);
+				total_raw_results = total_raw_results.slice(0, opts.results)
+				if (opts.suggestion) {
+					if ('searchinfo' in raw_results.query) {
+						var suggestion = raw_results.query.searchinfo.suggestion;
+						cb(false, total_raw_results, suggestion);
+					} else {
+						cb(false, total_raw_results, false);
+					}
+				} else {
+					cb(false, total_raw_results);
+				}
 			}
 		}
-	});
+	}
 }
 
 function suggest(query, cb) {

@@ -11,3 +11,10 @@ gulp.task('build', function() {
 	.pipe(concat('app.js'))
 	.pipe(gulp.dest('build'));
 });
+
+gulp.task('test', function(){
+	var test = require('./test/test.js');
+	test.search();
+})
+
+gulp.task('default', ['build', 'test']);

@@ -2,7 +2,7 @@ var request = require('request');
 
 module.exports = function(args) {
 	var opts = {
-		API:'http://en.wikipedia.org/w/api.php',
+		API_URL:'http://en.wikipedia.org/w/api.php',
 		RATE_LIMIT:false,
 		RATE_LIMIT_MIN_WAIT:false,
 		RATE_LIMIT_LAST_CALL:false,

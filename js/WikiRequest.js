@@ -10,7 +10,6 @@ function WikiRequest(params, caller, cb) {
 	}
 
 	this.send(params, headers, cb);
-
 }
 
 WikiRequest.prototype.send = function(params, headers, cb) {
@@ -30,7 +29,7 @@ WikiRequest.prototype.send = function(params, headers, cb) {
 				cb(error);
 			} else {
 				var raw_results = JSON.parse(body);
-				if ('error' in body) {
+				if ('error' in raw_results) {
 					if (['HTTP request timed out.', 'Pool queue is full'].index(raw_results.error.info)) {
 						//HTTPTimeOutError
 					}
