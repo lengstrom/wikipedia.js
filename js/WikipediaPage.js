@@ -25,21 +25,17 @@ function WikipediaPage(opts, caller) {
 			return false;
 		}
 
-		if (opts.preload) {
-
-		}
-
 		// Setup
-		this.categories = [];
-		this.content = '';
-		this.coordinates = [];
-		this.images = [];
-		this.links = [];
-		this.parent_id = Number;
-		this.references = '';
-		this.revision_id = Number;
-		this.sections = [];
-		this.summary = '';
+		// this.categories = [];
+		// this.content = '';
+		// this.coordinates = [];
+		// this.images = [];
+		// this.links = [];
+		// this.parent_id = Number;
+		// this.references = '';
+		// this.revision_id = Number;
+		// this.sections = [];
+		// this.summary = '';
 	};
 
 	function load(redirect, shouldPreload) {
@@ -117,7 +113,7 @@ function WikipediaPage(opts, caller) {
 					// throw disambigaution error without candidates
 				}
 			} else { //success
-				this.pageid = pageid;`
+				this.pageid = pageid;
 				this.title = page.title;
 				this.url = page.fullurl;
 				if (shouldPreload) preload();
@@ -129,10 +125,57 @@ function WikipediaPage(opts, caller) {
 	// public functions
 }
 
-WikipediaPage.prototype.html = function() {
-	return '';
-};
+WikipediaPage.prototype.content = function(cb) {
+	if (this._content) cb(false, this._content);
+	else {
+		var params = {
+			prop:'extracts|revisions',
+			explaintext:'',
+			rvprop:'ids'
+		};
 
-WikipediaPage.prototype.section = function() {
-	return '';
-};
+		params['pageids'] = this.pageid;
+		var req = new WikiRequest(params, this, (function(err, raw_json) {
+			if (err) {
+				cb(err);
+			} else {
+				this._content = raw_json.query.pages[self.pageid].extract;
+				this._revision_id = request.query.pages[self.pageid].revisions[0].revid;
+				this._parent_id = request.query.pages[self.pageid].revisions[0].parentid;
+				cb(false, this._content);
+			}
+		}).bind(this));
+	}
+}
+
+WikipediaPage.prototype.revision_id = function(cb) {
+	if (this._revision_id) cb(false, this._revision_id);
+	else {
+		this.content(function(err){
+			if (err) cb(err);
+			else {
+				cb(false, this._revision_id);
+			}
+		});
+	}
+}
+
+WikipediaPage.prototype.summary = function() {
+
+}
+
+WikipediaPage.prototype.images = function() {
+
+}
+
+WikipediaPage.prototype.references = function() {
+
+}
+
+WikipediaPage.prototype.links = function() {
+
+}
+
+WikipediaPage.prototype.sections = function() {
+
+}
