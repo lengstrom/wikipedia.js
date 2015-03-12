@@ -134,7 +134,7 @@ WikipediaPage.prototype.content = function(cb) {
 			rvprop:'ids'
 		};
 
-		params['pageids'] = this.pageid;
+		params.pageids = this.pageid;
 		var req = new WikiRequest(params, this, (function(err, raw_json) {
 			if (err) {
 				cb(err);
@@ -163,7 +163,7 @@ WikipediaPage.prototype.parent_id = function(cb) {
 WikipediaPage.prototype.revision_id = function(cb) {
 	if (this._revision_id) cb(false, this._revision_id);
 	else {
-		this.content(function(err){
+		this.content(function(err) {
 			if (err) cb(err);
 			else {
 				cb(false, this._revision_id);
@@ -172,11 +172,52 @@ WikipediaPage.prototype.revision_id = function(cb) {
 	}
 }
 
-WikipediaPage.prototype.summary = function(cb) {
+WikipediaPage.prototype.summary = function() {
+	if (this._summary) cb(false, this._summary)
+	else {
+		var params = {
+			prop:'extracts',
+			explaintext:'',
+			exintro:'',
+		};
 
+		params.pageids = this.pageid;
+		var req = new WikiRequest(params, this, function(err, raw_json) {
+			if (err) cb(err);
+			else {
+				this._summary = request.query.pages[this.pageid].extract;
+				cb(false, this._summary);
+			}
+		});
+	}
 }
 
 WikipediaPage.prototype.images = function() {
+
+}
+
+WikipediaPage.prototype.coordinates = function(cb) {
+	if (this._coordinates) cb(false, this._coordinates);
+	else {
+		var params = {
+			'prop': 'coordinates',
+			'colimit': 'max',
+			'titles': this.title,
+		}
+
+		var req = new WikiRequest(params, this, function(err, raw_json) {
+			if (err) cb(err);
+			else {
+				if ('query' in raw_json) {
+					var coordinates = request.query.pages[this.pageid].coordinates;
+					this._coordinates = {lat:coordinates[0].lat, lon:coordinates[0].lon};
+					cb(false, this._coordinates);
+				} else {
+					cb(false, false);
+				}
+			}
+		})
+	}
 
 }
 
