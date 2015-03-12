@@ -148,6 +148,18 @@ WikipediaPage.prototype.content = function(cb) {
 	}
 }
 
+WikipediaPage.prototype.parent_id = function(cb) {
+	if (this._parent_id) cb(false, this._parent_id);
+	else {
+		this.content(function(err){
+			if (err) cb(err);
+			else {
+				cb(false, this._parent_id);
+			}
+		});
+	}
+}
+
 WikipediaPage.prototype.revision_id = function(cb) {
 	if (this._revision_id) cb(false, this._revision_id);
 	else {
@@ -160,7 +172,7 @@ WikipediaPage.prototype.revision_id = function(cb) {
 	}
 }
 
-WikipediaPage.prototype.summary = function() {
+WikipediaPage.prototype.summary = function(cb) {
 
 }
 
