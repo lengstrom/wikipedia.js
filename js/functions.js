@@ -21,7 +21,7 @@ function search(query, cb, opts) {
 		if (err) {
 			cb(err);
 		} else {
-			var search_results = raw_results.query.search.map(function(d){return d.title;});
+			var search_results = raw_results.query.search.map(function(d){return d.title;}); 
 			total_raw_results = total_raw_results.concat(search_results);
 			if ('continue' in raw_results && total_raw_results.length < params.limit) {
 				for (var i in raw_results.continue) {
@@ -56,7 +56,7 @@ function suggest(query, cb) {
 			this.cache.add('search', results);
 			cb(false, suggestion);
 		}
-	}, {'srinfo':'suggestion'});
+	}, {suggestion:true, results:1});
 
 }
 
