@@ -9,6 +9,10 @@ function WikiRequest(params, caller, cb) {
 		params.action = 'query';
 	}
 
+	if (!('continue' in params)) {
+		params.continue = '';
+	}
+
 	this.send(params, headers, cb);
 }
 

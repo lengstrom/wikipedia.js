@@ -22,15 +22,16 @@ function search(query, cb, opts) {
 			cb(err);
 		} else {
 			var search_results = raw_results.query.search.map(function(d){return d.title;});
+			debugger;
 			total_raw_results = total_raw_results.concat(search_results);
-			if ('continue' in raw_results && total_raw_results.length < opts.results) {
+			if ('continue' in raw_results && total_raw_results.length < params.limit) {
 				for (var i in raw_results.continue) {
 					params[i] = raw_results.continue[i];
 				}
 
 				var req = new WikiRequest(params, caller, handleWikiRequest);
 			} else {
-				total_raw_results = total_raw_results.slice(0, opts.results)
+				total_raw_results = total_raw_results.slice(0, opts.results);
 				if (opts.suggestion) {
 					if ('searchinfo' in raw_results.query) {
 						var suggestion = raw_results.query.searchinfo.suggestion;
