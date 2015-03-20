@@ -192,8 +192,25 @@ WikipediaPage.prototype.summary = function() {
 	}
 }
 
-WikipediaPage.prototype.images = function() {
+WikipediaPage.prototype.images = function(cb) {
+	if (this._images) cb(false, this._images);
+	else {
+		var url = page.imageinfo[0].url;
+		var params = {
+			'generator':'images',
+			'gimlimit':'max',
+			'prop':'imageinfo',
+			'iiprop':'url'
+		};
 
+		var req = WikiRequest(params, this, cb.bind(this));
+
+	}
+
+	function handleImageReturn(raw_json, cb) {
+		if (raw_json)
+		var req = WikiRequest(params, this, handleImageReturn.bind(this));
+	}
 }
 
 WikipediaPage.prototype.coordinates = function(cb) {
@@ -203,7 +220,7 @@ WikipediaPage.prototype.coordinates = function(cb) {
 			'prop': 'coordinates',
 			'colimit': 'max',
 			'titles': this.title,
-		}
+		};
 
 		var req = new WikiRequest(params, this, function(err, raw_json) {
 			if (err) cb(err);
@@ -216,7 +233,7 @@ WikipediaPage.prototype.coordinates = function(cb) {
 					cb(false, false);
 				}
 			}
-		})
+		});
 	}
 
 }
